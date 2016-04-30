@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Hoşgeldiniz</title>
+
+    <!-- date.css -->
+	<link rel="stylesheet" href="css/date.css"/>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet"/>
+    <!-- Fontawesome -->
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+    <div class="container">
+    	<div class="row">
+		<div class="jumbotron"><h2 class="text-center">Kullanıcı Bilgileri</h2></div>
+			<div class="col-md-12 ">
+				<form class="form-horizontal" name="users">
+					<div class="" id="sonuc"></div>
+
+					<!-- Cinsiyet -->
+					<div class="form-group">
+					  <label class="col-md-4 control-label" for="cinsiyet">Cinsiyet</label>
+					  <div class="col-md-4"> 
+					    <label class="radio-inline">
+					      <input type="radio" name="cinsiyet" id="cinsiyet" value="kı<">
+					      Kız
+					    </label> 
+					    <label class="radio-inline">
+					      <input type="radio" name="cinsiyet" id="cinsiyet" value="Erkek">
+					      Erkek
+					    </label> 
+					  </div>
+					</div><!-- /.form-group -->
+
+					<!-- Doğum Tarihi -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="dogumTarihi">Doğum Tarihi</label>  
+						<div class="col-md-2" id="sandbox-container">
+							<div class="input-group input-daterange" id="datepicker" style="width:100%;">
+								<input style="text-align:left" id="dogumTarihi" name="dogumTarihi" type="text" placeholder="gg/aa/yyyy" class="form-control input-md">
+							</div>
+						</div>
+					</div><!-- /.form-group -->
+
+					<div class="form-group">
+						<label class="col-md-4 control-label col-xs-12" for="boy">Boy</label>  
+						<div class="col-md-2  col-xs-4">
+							<input id="boy" name="boy" type="text" placeholder="...........cm" class="form-control input-md ">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label col-xs-12" for="kilo">Kilo</label>  
+						<div class="col-md-2  col-xs-4">
+							<input id="kilo" name="kilo" type="text" placeholder="...........kg" class="form-control input-md ">
+						</div>
+					</div>
+					<!-- Button lar -->
+					<div class="form-group">
+					  <label class="col-md-3 control-label" ></label>  
+					  <div class="col-md-3">
+						  <a href="#" id="kaydet" onclick="kaydet()" class="btn btn-success pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> Kaydet</a>
+						  <input type="reset" class="btn btn-danger" value="Formu Temizle"></input>
+					  </div>
+					</div><!-- /.form-group -->
+
+				</form>
+			</div><!-- /col-md-12 -->
+    	</div><!-- /row -->
+    </div><!-- /container -->
+
+
+    <!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+	<script>
+	function kaydet(){
+
+    	var ref = new Firebase("https://sonerufler.firebaseio.com");
+		var usersRef = ref.child("users");
+		var boy = $('#boy').val();
+		var kilo = $('#kilo').val();
+		var cinsiyet = $("input[type='radio'][name='cinsiyet']:checked").val();
+		var dogumTarihi = $('#dogumTarihi').val();
+
+		if (document.users.cinsiyet.value=="" || document.users.dogumTarihi.value=="" || document.users.kilo.value=="" || document.users.boy.value==""){
+			$("div#sonuc").html("Lütfen Boş Alan Bırakmayın.");
+			$("div#sonuc").addClass("alert alert-danger text-center");
+		}else{
+			$("div#sonuc").removeClass("alert alert-success text-center");
+			$("div#sonuc").html("Bilgilerinizi Verdiğiniz İçin Teşekkürler.");
+			$("div#sonuc").addClass("alert alert-success text-center");
+			usersRef.push({
+				users: {
+				dogumTarihi: dogumTarihi,
+				cinsiyet: cinsiyet,
+				kilo: kilo,
+				boy: boy
+				}
+			});
+		}
+	}
+	</script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- datetimepicker-->
+    <script src="js/date.js"></script>
+  </body>
+</html>
